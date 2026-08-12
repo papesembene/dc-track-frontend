@@ -9,8 +9,8 @@ defineProps<{
 </script>
 
 <template>
-  <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-    <div :class="['flex h-11 w-11 items-center justify-center rounded-xl mb-5', iconBg]">
+  <article class="rounded-xl border border-gray-100 bg-white p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-100 hover:shadow-md">
+    <div :class="['mb-5 flex h-11 w-11 items-center justify-center rounded-lg', iconBg]">
       <!-- graduation cap -->
       <svg v-if="icon === 'graduation'" :class="['h-5 w-5', iconColor]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
@@ -32,7 +32,7 @@ defineProps<{
         <polyline points="7 14 11 10 14 13 19 7"/>
       </svg>
     </div>
-    <p class="text-3xl font-bold text-slate-900">{{ value }}</p>
-    <p class="mt-1 text-sm text-slate-500">{{ label }}</p>
+    <p class="text-3xl font-bold text-gray-900">{{ value }}</p>
+    <p class="mt-1 text-sm text-gray-500">{{ label }}</p>
   </article>
 </template>

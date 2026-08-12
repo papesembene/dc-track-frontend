@@ -278,7 +278,7 @@ onMounted(async () => {
           </p>
         </div>
         <button
-          class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-orange-500/30 transition-all hover:-translate-y-0.5 hover:shadow-lg"
+          class="inline-flex items-center gap-2 rounded-lg bg-[#F16E00] px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-orange-500/25 transition-all hover:-translate-y-0.5 hover:bg-[#d95f00] hover:shadow-lg"
           @click="showModal = true"
         >
           <svg

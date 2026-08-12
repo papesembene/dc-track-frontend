@@ -26,6 +26,7 @@ async function fetchReferentiels() {
       search: search.value || undefined,
       sortBy: 'nom',
       sortOrder: 'asc',
+      forceRefresh: true,
     })
 
     referentiels.value = data.items

@@ -53,6 +53,7 @@ export interface StatistiquesGlobalesOptions {
   includePromotions?: boolean;
   includeReferentiels?: boolean;
   includeSituationsRecentes?: boolean;
+  forceRefresh?: boolean;
 }
 
 export interface StatistiquesPromotion {

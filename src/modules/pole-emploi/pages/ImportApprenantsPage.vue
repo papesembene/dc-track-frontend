@@ -90,7 +90,7 @@ async function loadOptions() {
   try {
     const [promotionItems, referentialItems] = await Promise.all([
       getLocalPromotions(),
-      getReferentiels(),
+      getReferentiels({ forceRefresh: true }),
     ]);
 
     promotions.value = promotionItems;
@@ -289,28 +289,22 @@ onMounted(() => {
   >
     <div class="space-y-5">
       <div
-        class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 p-6 text-white shadow-xl shadow-orange-500/20 lg:p-8"
+        class="relative overflow-hidden rounded-xl border border-gray-100 bg-white p-5 shadow-sm lg:p-6"
       >
-        <div
-          class="pointer-events-none absolute -right-12 -top-12 h-52 w-52 rounded-full bg-white/10"
-        ></div>
-        <div
-          class="pointer-events-none absolute -bottom-8 right-8 h-36 w-36 rounded-full bg-white/10"
-        ></div>
         <div
           class="relative flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
         >
           <div>
             <div
-              class="mb-2 inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1"
+              class="mb-2 inline-flex items-center gap-2 rounded-full bg-orange-50 px-3 py-1 text-[#F16E00]"
             >
               <span class="h-1.5 w-1.5 rounded-full bg-amber-300"></span>
               <span class="text-xs font-semibold">Historique seulement</span>
             </div>
-            <h2 class="text-2xl font-extrabold sm:text-3xl">
+            <h2 class="text-2xl font-bold text-gray-900 sm:text-3xl">
               Import anciennes promotions
             </h2>
-            <p class="mt-1 text-sm text-orange-100">
+            <p class="mt-1 text-sm text-gray-500">
               1 import = 1 promotion historique + 1 referentiel + le fichier
               des apprenants.
             </p>
@@ -318,7 +312,7 @@ onMounted(() => {
 
           <button
             type="button"
-            class="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-orange-600 shadow-sm transition-colors hover:bg-orange-50 disabled:opacity-60"
+            class="inline-flex items-center gap-2 rounded-lg bg-[#F16E00] px-4 py-2.5 text-sm font-semibold text-white shadow-sm shadow-orange-500/20 transition-colors hover:bg-[#d95f00] disabled:opacity-60"
             :disabled="isDownloadingTemplate"
             @click="handleDownloadTemplate"
           >
@@ -603,17 +597,17 @@ onMounted(() => {
             </p>
             <p class="text-sm text-green-700">Apprenants</p>
           </div>
-          <div class="rounded-xl bg-blue-50 p-4 text-center">
-            <p class="text-2xl font-bold text-blue-600">
+          <div class="rounded-xl bg-teal-50 p-4 text-center">
+            <p class="text-2xl font-bold text-[#009682]">
               {{ importResult.createdPromotions ?? 0 }}
             </p>
-            <p class="text-sm text-blue-700">Promotions</p>
+            <p class="text-sm text-[#009682]">Promotions</p>
           </div>
-          <div class="rounded-xl bg-indigo-50 p-4 text-center">
-            <p class="text-2xl font-bold text-indigo-600">
+          <div class="rounded-xl bg-orange-50 p-4 text-center">
+            <p class="text-2xl font-bold text-[#F16E00]">
               {{ importResult.createdReferentiels ?? 0 }}
             </p>
-            <p class="text-sm text-indigo-700">Referentiels</p>
+            <p class="text-sm text-[#F16E00]">Referentiels</p>
           </div>
           <div class="rounded-xl bg-amber-50 p-4 text-center">
             <p class="text-2xl font-bold text-amber-600">

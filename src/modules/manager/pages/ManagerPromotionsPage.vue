@@ -45,7 +45,7 @@ async function fetchData() {
   error.value = null
 
   try {
-    const promotionsData = await getPromotions()
+    const promotionsData = await getPromotions({ forceRefresh: true })
 
     promotions.value = promotionsData.items.map((promotion) => ({
       ...promotion,
@@ -70,8 +70,8 @@ onMounted(fetchData)
     <div class="space-y-6">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div class="flex items-center gap-4">
-          <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 shadow-lg shadow-orange-500/25">
-            <Megaphone class="h-6 w-6 text-white" />
+          <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-orange-100 bg-orange-50 shadow-sm">
+            <Megaphone class="h-6 w-6 text-[#F16E00]" />
           </div>
           <div>
             <h1 class="text-2xl font-bold text-slate-900">Promotions</h1>

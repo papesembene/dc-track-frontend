@@ -27,9 +27,9 @@ const statutRows = computed(() => {
 
   return [
     { label: 'En emploi', value: stats.value.parStatut.EN_EMPLOI, color: 'bg-emerald-500' },
-    { label: 'En stage', value: stats.value.parStatut.EN_STAGE, color: 'bg-blue-500' },
+    { label: 'En stage', value: stats.value.parStatut.EN_STAGE, color: 'bg-[#009682]' },
     { label: 'Recherche', value: stats.value.parStatut.RECHERCHE_EMPLOI, color: 'bg-amber-400' },
-    { label: 'Projet perso', value: stats.value.parStatut.PROJET_PERSO, color: 'bg-purple-400' },
+    { label: 'Projet perso', value: stats.value.parStatut.PROJET_PERSO, color: 'bg-[#F16E00]' },
     { label: 'Études', value: stats.value.parStatut.POURSUITE_ETUDES, color: 'bg-slate-500' },
   ]
 })

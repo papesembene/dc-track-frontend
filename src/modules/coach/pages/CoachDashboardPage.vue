@@ -50,15 +50,15 @@ const stats = computed(() => {
     {
       label: "Situations suivies",
       value: String(dashboard.value.totalSituations),
-      iconBg: "bg-blue-50",
-      iconColor: "text-blue-400",
+      iconBg: "bg-orange-50",
+      iconColor: "text-[#F16E00]",
       icon: "briefcase",
     },
     {
       label: "Taux d'insertion",
       value: `${dashboard.value.tauxInsertion}%`,
-      iconBg: "bg-emerald-50",
-      iconColor: "text-emerald-500",
+      iconBg: "bg-teal-50",
+      iconColor: "text-[#009682]",
       icon: "trend",
     },
     {
@@ -146,7 +146,7 @@ const statusClass = (item: CoachApprenantListItem) => {
   if (!latest) return "bg-slate-100 text-slate-600";
   if (latest.valide) return "bg-emerald-100 text-emerald-600";
   if (latest.statut === "EN_STAGE" || latest.statut === "EN_EMPLOI") {
-    return "bg-blue-100 text-blue-600";
+    return "bg-teal-50 text-[#009682]";
   }
   return "bg-amber-100 text-amber-600";
 };
@@ -163,20 +163,20 @@ onMounted(loadCoachDashboard);
 <template>
   <CoachLayout title="Tableau de bord Coach" active-menu="dashboard">
     <div class="space-y-5">
-      <div v-if="error" class="rounded-2xl bg-red-50 p-4 text-red-600">
+      <div v-if="error" class="rounded-xl bg-red-50 p-4 text-red-600">
         {{ error }}
       </div>
 
       <div
         v-if="!hasLoaded"
-        class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+        class="rounded-xl border border-gray-100 bg-white p-5 shadow-sm"
       >
         <PageLoadingState compact message="Chargement du périmètre coach..." />
       </div>
 
       <div
         v-else
-        class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+        class="rounded-xl border border-gray-100 bg-white p-5 shadow-sm"
       >
         <div
           class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between"
@@ -217,7 +217,7 @@ onMounted(loadCoachDashboard);
             >
             <select
               v-model="selectedPromotionId"
-              class="h-11 w-full rounded-xl border border-slate-200 px-4 text-sm text-slate-700 outline-none focus:border-orange-400"
+              class="h-11 w-full rounded-lg border border-gray-200 px-4 text-sm text-gray-700 outline-none transition-colors focus:border-[#F16E00] focus:ring-2 focus:ring-orange-100"
               @change="loadCoachDashboard"
             >
               <option v-if="availablePromotions.length === 0" value="">
@@ -241,7 +241,7 @@ onMounted(loadCoachDashboard);
         <article
           v-for="index in 4"
           :key="index"
-          class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+          class="rounded-xl border border-gray-100 bg-white p-5 shadow-sm"
         >
           <div class="animate-pulse">
             <div class="h-4 w-28 rounded bg-slate-200"></div>
@@ -256,7 +256,7 @@ onMounted(loadCoachDashboard);
           <article
             v-for="stat in stats"
             :key="stat.label"
-            class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+            class="rounded-xl border border-gray-100 bg-white p-5 shadow-sm"
           >
             <div class="flex items-start justify-between gap-3">
               <div>
@@ -267,7 +267,7 @@ onMounted(loadCoachDashboard);
               </div>
               <div
                 :class="[
-                  'flex h-11 w-11 shrink-0 items-center justify-center rounded-xl',
+                  'flex h-11 w-11 shrink-0 items-center justify-center rounded-lg',
                   stat.iconBg,
                 ]"
               >
@@ -338,7 +338,7 @@ onMounted(loadCoachDashboard);
         <!-- ── Main grid: students list + right panel ── -->
         <div class="grid gap-5 xl:grid-cols-[1fr_340px]">
           <!-- Mes apprenants -->
-          <div class="rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <div class="rounded-xl border border-gray-100 bg-white shadow-sm">
             <div
               class="flex items-center justify-between px-6 py-5 border-b border-slate-100"
             >
@@ -360,7 +360,7 @@ onMounted(loadCoachDashboard);
               >
                 <!-- Avatar -->
                 <div
-                  class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-orange-500 text-sm font-bold text-white"
+                  class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#F16E00] text-sm font-bold text-white"
                 >
                   {{
                     `${student.user.prenom?.[0] || ""}${student.user.nom?.[0] || ""}`.toUpperCase()
@@ -412,7 +412,7 @@ onMounted(loadCoachDashboard);
           <!-- Right column -->
           <div class="flex flex-col gap-5">
             <!-- Alertes -->
-            <div class="rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <div class="rounded-xl border border-gray-100 bg-white shadow-sm">
               <div class="px-6 py-5 border-b border-slate-100">
                 <h2 class="text-base font-bold text-slate-900">Alertes</h2>
               </div>
@@ -442,7 +442,7 @@ onMounted(loadCoachDashboard);
                   <!-- info icon -->
                   <svg
                     v-else
-                    class="mt-0.5 h-5 w-5 shrink-0 text-blue-400"
+                    class="mt-0.5 h-5 w-5 shrink-0 text-[#009682]"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -465,7 +465,7 @@ onMounted(loadCoachDashboard);
             </div>
 
             <!-- Activité récente -->
-            <div class="rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <div class="rounded-xl border border-gray-100 bg-white shadow-sm">
               <div class="px-6 py-5 border-b border-slate-100">
                 <h2 class="text-base font-bold text-slate-900">
                   Activité récente
@@ -479,7 +479,7 @@ onMounted(loadCoachDashboard);
                 >
                   <!-- dot -->
                   <span
-                    class="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-orange-500"
+                    class="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-[#F16E00]"
                   ></span>
                   <div class="min-w-0">
                     <p class="text-sm font-semibold text-slate-900">

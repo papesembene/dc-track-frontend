@@ -693,7 +693,7 @@ onMounted(() => {
           <button
             type="submit"
             :disabled="isLoading"
-            class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-2.5 text-sm font-bold text-white shadow-md shadow-orange-500/30 transition-all hover:-translate-y-0.5 hover:shadow-lg disabled:translate-y-0 disabled:opacity-70 disabled:shadow-none"
+            class="inline-flex items-center gap-2 rounded-lg bg-[#F16E00] px-6 py-2.5 text-sm font-bold text-white shadow-md shadow-orange-500/25 transition-all hover:-translate-y-0.5 hover:bg-[#d95f00] hover:shadow-lg disabled:translate-y-0 disabled:opacity-70 disabled:shadow-none"
           >
             <svg
               v-if="!isLoading"

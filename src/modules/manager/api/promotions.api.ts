@@ -55,6 +55,7 @@ export type PromotionsPagination = {
 
 export type PromotionsMasterDataOptions = {
   includeMetrics?: boolean;
+  forceRefresh?: boolean;
 };
 
 export interface PromotionInput {
@@ -81,6 +82,7 @@ export async function getPromotions(
       const res = await api.get("/promotions/master-data", {
         params: {
           includeMetrics: options.includeMetrics !== false,
+          forceRefresh: options.forceRefresh ? "true" : undefined,
         },
       });
       return {
@@ -88,7 +90,11 @@ export async function getPromotions(
         pagination: extractApiPagination(res),
       };
     },
-    { ttlMs: 5 * 60 * 1000, staleTtlMs: 30 * 60 * 1000 },
+    {
+      ttlMs: 5 * 60 * 1000,
+      staleTtlMs: 30 * 60 * 1000,
+      forceRefresh: options.forceRefresh,
+    },
   );
 }
 
@@ -97,14 +103,22 @@ export async function getPromotions(
  *
  * @returns Promesse avec la liste des référentiels
  */
-export async function getReferentiels(): Promise<ReferentielItem[]> {
+export async function getReferentiels(options: { forceRefresh?: boolean } = {}): Promise<ReferentielItem[]> {
   return getCachedMasterData(
     "master-data:referentiels",
     async () => {
-      const res = await api.get("/referentiels/master-data");
+      const res = await api.get("/referentiels/master-data", {
+        params: {
+          forceRefresh: options.forceRefresh ? "true" : undefined,
+        },
+      });
       return extractApiItems<ReferentielItem>(res);
     },
-    { ttlMs: 5 * 60 * 1000, staleTtlMs: 30 * 60 * 1000 },
+    {
+      ttlMs: 5 * 60 * 1000,
+      staleTtlMs: 30 * 60 * 1000,
+      forceRefresh: options.forceRefresh,
+    },
   );
 }
 
@@ -124,14 +138,24 @@ export async function activatePromotion(id: string): Promise<PromotionItem> {
  *
  * @returns Promesse avec la promotion active ou null
  */
-export async function getActivePromotion(): Promise<PromotionWithReferentiels | null> {
+export async function getActivePromotion(
+  options: { forceRefresh?: boolean } = {},
+): Promise<PromotionWithReferentiels | null> {
   return getCachedMasterData(
     "master-data:active-promotion",
     async () => {
-      const res = await api.get("/promotions/master-data/active");
+      const res = await api.get("/promotions/master-data/active", {
+        params: {
+          forceRefresh: options.forceRefresh ? "true" : undefined,
+        },
+      });
       return extractApiData<PromotionWithReferentiels | null>(res);
     },
-    { ttlMs: 5 * 60 * 1000, staleTtlMs: 30 * 60 * 1000 },
+    {
+      ttlMs: 5 * 60 * 1000,
+      staleTtlMs: 30 * 60 * 1000,
+      forceRefresh: options.forceRefresh,
+    },
   );
 }
 

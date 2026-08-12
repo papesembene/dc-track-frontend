@@ -29,6 +29,7 @@ async function loadDashboard() {
       includePromotions: true,
       includeReferentiels: false,
       includeSituationsRecentes: true,
+      forceRefresh: true,
     })
 
     statsData.value = stats
@@ -49,7 +50,10 @@ async function handlePromotionChange() {
 // ── Fetch data on mount ──
 onMounted(async () => {
   try {
-    const allPromotions = await getPromotions({ includeMetrics: false })
+    const allPromotions = await getPromotions({
+      includeMetrics: false,
+      forceRefresh: true,
+    })
 
     promotionOptions.value = allPromotions.items
     activePromotion.value =
@@ -70,7 +74,7 @@ const stats = computed(() => {
     return [
       { label: 'Total Apprenants', value: '-', badge: '', badgeClass: 'bg-slate-100 text-slate-500', iconBg: 'bg-orange-50', iconColor: 'text-orange-400', icon: 'graduation' },
       { label: 'Coaches actifs', value: '-', badge: '', badgeClass: 'bg-slate-100 text-slate-500', iconBg: 'bg-emerald-50', iconColor: 'text-emerald-500', icon: 'coach' },
-      { label: 'Situations validées', value: '-', badge: '', badgeClass: 'bg-slate-100 text-slate-500', iconBg: 'bg-blue-50', iconColor: 'text-blue-400', icon: 'check' },
+      { label: 'Situations validées', value: '-', badge: '', badgeClass: 'bg-slate-100 text-slate-500', iconBg: 'bg-teal-50', iconColor: 'text-[#009682]', icon: 'check' },
       { label: "Taux d'insertion", value: '-', badge: '', badgeClass: 'bg-slate-100 text-slate-500', iconBg: 'bg-amber-50', iconColor: 'text-amber-400', icon: 'trend' },
     ]
   }
@@ -101,8 +105,8 @@ const stats = computed(() => {
       value: String(validees),
       badge: '',
       badgeClass: 'bg-slate-100 text-slate-500',
-      iconBg: 'bg-blue-50',
-      iconColor: 'text-blue-400',
+      iconBg: 'bg-teal-50',
+      iconColor: 'text-[#009682]',
       icon: 'check',
     },
     {
@@ -142,8 +146,8 @@ const alerts = computed(() => {
     if (enRecherche > 0) {
       result.push({
         type: 'info',
-        bg: 'bg-blue-50',
-        iconColor: 'text-blue-400',
+        bg: 'bg-teal-50',
+        iconColor: 'text-[#009682]',
         text: `${enRecherche} apprenant${enRecherche > 1 ? 's' : ''} en recherche d'emploi`,
         href: '/manager/apprenants',
       })
@@ -186,7 +190,7 @@ const activities = computed(() => {
       case 'EN_STAGE':
         action = 'Nouvelle situation déclarée'
         tag = 'Stage'
-        tagClass = 'bg-blue-100 text-blue-600'
+        tagClass = 'bg-teal-50 text-[#009682]'
         break
       case 'RECHERCHE_EMPLOI':
         action = 'En recherche d\'emploi'
@@ -273,7 +277,7 @@ const promotions = computed(() => {
       />
 
       <!-- Error state -->
-      <div v-else-if="error" class="rounded-2xl bg-red-50 p-4 text-red-600">
+      <div v-else-if="error" class="rounded-xl bg-red-50 p-4 text-red-600">
         {{ error }}
       </div>
 
@@ -303,7 +307,7 @@ const promotions = computed(() => {
             </label>
             <select
               v-model="selectedPromotionId"
-              class="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 outline-none focus:border-orange-400"
+              class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 outline-none transition-colors focus:border-[#F16E00] focus:ring-2 focus:ring-orange-100"
               @change="handlePromotionChange"
             >
               <option
@@ -333,10 +337,10 @@ const promotions = computed(() => {
           <article
             v-for="stat in stats"
             :key="stat.label"
-            class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+            class="rounded-xl border border-gray-100 bg-white p-5 shadow-sm"
           >
             <div class="flex items-start justify-between">
-              <div :class="['flex h-11 w-11 items-center justify-center rounded-xl', stat.iconBg]">
+              <div :class="['flex h-11 w-11 items-center justify-center rounded-lg', stat.iconBg]">
                 <!-- graduation cap -->
                 <svg v-if="stat.icon === 'graduation'" :class="['h-5 w-5', stat.iconColor]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
@@ -370,7 +374,7 @@ const promotions = computed(() => {
           <div
             v-for="alert in alerts"
             :key="alert.text"
-            :class="['rounded-2xl p-4', alert.bg]"
+            :class="['rounded-xl border border-gray-100 p-4', alert.bg]"
           >
             <div class="flex items-start gap-3">
               <!-- warning -->
@@ -397,7 +401,7 @@ const promotions = computed(() => {
         </div>
 
         <!-- ── Activité récente ── -->
-        <div class="rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <div class="rounded-xl border border-gray-100 bg-white shadow-sm">
             <div class="flex items-center justify-between px-6 py-4">
               <h2 class="text-base font-bold text-slate-900">Activité récente</h2>
               <a href="/manager/statistiques" class="text-sm font-semibold text-orange-500 hover:underline">Voir tout</a>
@@ -449,7 +453,7 @@ const promotions = computed(() => {
         </div>
 
         <!-- ── Promotions en cours ── -->
-        <div v-if="promotions.length > 0" class="rounded-2xl border border-slate-200 bg-white shadow-sm px-6 py-5">
+        <div v-if="promotions.length > 0" class="rounded-xl border border-gray-100 bg-white shadow-sm px-6 py-5">
           <div class="flex items-center justify-between pb-4 border-b border-slate-100">
             <h2 class="text-base font-bold text-slate-900">Promotions</h2>
             <a href="/manager/statistiques" class="text-sm font-semibold text-orange-500 hover:underline">Voir les stats</a>

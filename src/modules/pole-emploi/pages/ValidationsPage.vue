@@ -33,8 +33,8 @@ async function loadFilters() {
   try {
     // Requêtes parallèles pour optimiser les performances
     const [promData, refData] = await Promise.all([
-      getPromotions({ includeMetrics: false }),
-      getReferentiels(),
+      getPromotions({ includeMetrics: false, forceRefresh: true }),
+      getReferentiels({ forceRefresh: true }),
     ]);
     const promotions = Array.isArray(promData) ? promData : [];
     const referentiels = Array.isArray(refData) ? refData : [];
@@ -263,20 +263,14 @@ async function confirmReject() {
     <div class="space-y-5">
       <!-- ── Hero Banner ── -->
       <div
-        class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 p-6 text-white shadow-xl shadow-orange-500/20 lg:p-8"
+        class="relative overflow-hidden rounded-xl border border-gray-100 bg-white p-5 shadow-sm lg:p-6"
       >
-        <div
-          class="pointer-events-none absolute -right-12 -top-12 h-52 w-52 rounded-full bg-white/10"
-        ></div>
-        <div
-          class="pointer-events-none absolute -bottom-8 right-8 h-36 w-36 rounded-full bg-white/10"
-        ></div>
         <div
           class="relative flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
         >
           <div>
             <div
-              class="mb-2 inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1"
+              class="mb-2 inline-flex items-center gap-2 rounded-full bg-orange-50 px-3 py-1 text-[#F16E00]"
             >
               <span class="h-1.5 w-1.5 rounded-full bg-amber-300"></span>
               <span class="text-xs font-semibold"
@@ -287,13 +281,13 @@ async function confirmReject() {
                 }}</span
               >
             </div>
-            <h2 class="text-2xl font-extrabold leading-tight sm:text-3xl">
+            <h2 class="text-2xl font-bold leading-tight text-gray-900 sm:text-3xl">
               Validations
             </h2>
-            <p class="mt-1 text-sm text-orange-100">
+            <p class="mt-1 text-sm text-gray-500">
               Gérez les situations professionnelles soumises
             </p>
-            <p class="mt-2 text-xs font-medium text-orange-100/90">
+            <p class="mt-2 text-xs font-medium text-gray-500">
               {{
                 activePromotion
                   ? `Filtre initial : promotion active ${activePromotion.nom}${activePromotion.annee ? ` (${activePromotion.annee})` : ""}`
@@ -301,10 +295,10 @@ async function confirmReject() {
               }}
             </p>
           </div>
-          <div class="rounded-2xl bg-white/15 px-6 py-3 text-center shrink-0">
-            <p v-if="isLoading" class="h-9 w-16 animate-pulse rounded bg-white/20"></p>
-            <p v-else class="text-3xl font-extrabold">{{ filtered.length }}</p>
-            <p class="text-xs text-orange-100 mt-0.5">
+          <div class="shrink-0 rounded-xl border border-orange-100 bg-orange-50 px-6 py-3 text-center">
+            <p v-if="isLoading" class="h-9 w-16 animate-pulse rounded bg-orange-100"></p>
+            <p v-else class="text-3xl font-bold text-[#F16E00]">{{ filtered.length }}</p>
+            <p class="mt-0.5 text-xs text-gray-500">
               situation{{ filtered.length > 1 ? "s" : "" }}
             </p>
           </div>

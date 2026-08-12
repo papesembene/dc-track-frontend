@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
+import { AlertCircle, Eye, EyeOff, LoaderCircle, Lock, Mail } from "lucide-vue-next";
 import { api } from "../../../core/api/axios";
 import { clearAuthenticatedSession } from "../../../core/auth/auth-session";
 import { persistAuthenticatedSession } from "../../../core/auth/auth-session";
 import { getDefaultPathByRole } from "../../../core/auth/role-redirect";
 import { showToast } from "../../../core/ui/toast";
-import AppSidebarBrand from "@/shared/components/AppSidebarBrand.vue";
 
 const router = useRouter();
 const showPassword = ref(false);
@@ -94,180 +94,186 @@ const onSubmit = async () => {
 </script>
 
 <template>
-  <main class="min-h-screen bg-slate-50 text-slate-900">
-    <div class="grid min-h-screen lg:grid-cols-2">
+  <main
+    class="flex min-h-screen items-center justify-center overflow-hidden bg-gray-50 p-6"
+    style="background: url(https://res.cloudinary.com/drxouwbms/image/upload/v1743682062/pattern_kldzo3.png); background-size: cover;"
+  >
+    <div class="login-card-shell relative mx-auto w-full max-w-sm">
+      <div class="login-card-layer login-card-layer-orange"></div>
+      <div class="login-card-layer login-card-layer-teal"></div>
 
-      <!-- ── Left: Form ── -->
-      <section class="flex items-center justify-center px-6 py-12 sm:px-10 lg:px-14 bg-white">
-        <div class="w-full max-w-[420px]">
-
-          <!-- Logo -->
-          <div>
-            <AppSidebarBrand light />
-            <p class="mt-2 text-xs text-slate-400">Suivi d'insertion professionnelle</p>
+      <section class="relative z-10 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-lg">
+        <div class="p-6">
+          <div class="-mx-6 -mt-6 mb-4 flex justify-center bg-gradient-to-b from-gray-50 to-white px-6 pb-4 pt-6">
+            <img
+              src="https://res.cloudinary.com/drxouwbms/image/upload/v1743507686/image_27_qtiin4.png"
+              alt="Sonatel Logo"
+              class="h-auto w-[130px]"
+            />
           </div>
 
-          <!-- Heading -->
-          <div class="mt-10">
-            <h2 class="text-2xl font-bold text-slate-900">Bienvenue 👋</h2>
-            <p class="mt-1.5 text-sm text-slate-500">Connectez-vous pour accéder à votre espace</p>
+          <div class="mb-4 text-center">
+            <p class="mb-1 text-xs font-medium text-gray-600">Bienvenue sur</p>
+              <h2 class="text-lg font-bold text-[#F16E00] drop-shadow-sm">
+              ODC Track
+            </h2>
           </div>
 
-          <!-- Error banner -->
-          <div v-if="errorMessage" class="mt-6 flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3">
-            <svg class="mt-0.5 h-4 w-4 shrink-0 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-            </svg>
-            <p class="text-sm text-red-700">{{ errorMessage }}</p>
+          <h1 class="mb-5 text-center text-xl font-bold text-gray-700">Se connecter</h1>
+
+          <div
+            v-if="errorMessage"
+            class="mb-4 flex items-start rounded-lg border-l-4 border-red-500 bg-red-50 p-3 text-xs text-red-600 shadow-sm"
+          >
+            <AlertCircle :size="14" class="mr-2 mt-0.5 shrink-0" />
+            <span>{{ errorMessage }}</span>
           </div>
 
-          <!-- Form -->
-          <form class="mt-8 space-y-5" @submit.prevent="onSubmit">
-            <!-- Email -->
+          <form class="space-y-4" @submit.prevent="onSubmit">
             <div>
-              <label class="mb-1.5 block text-sm font-semibold text-slate-700">Adresse email</label>
-              <div
-                class="flex h-12 items-center gap-3 rounded-xl border px-4 transition-colors focus-within:border-orange-400 focus-within:ring-3 focus-within:ring-orange-500/10"
-                :class="errors.email ? 'border-red-300 bg-red-50/30' : 'border-slate-200 bg-white'"
-              >
-                <svg class="h-4 w-4 shrink-0 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/>
-                </svg>
+              <label for="email" class="mb-1 block text-xs font-medium text-gray-700">Login</label>
+              <div class="group relative">
+                <div class="pointer-events-auto absolute inset-y-0 left-0 flex items-center pl-3">
+                  <Mail
+                    :size="16"
+                    class="transition-colors"
+                    :class="errors.email ? 'text-red-500' : 'text-gray-400 group-focus-within:text-[#F16E00]'"
+                  />
+                </div>
                 <input
+                  id="email"
                   v-model.trim="form.email"
                   type="email"
                   :disabled="isLoading"
                   @blur="validateEmail"
-                  placeholder="votre.email@odc.sn"
-                  class="w-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400 disabled:opacity-60"
+                  placeholder="Matricule ou email"
+                  class="w-full rounded-lg border py-2 pl-9 pr-3 text-sm shadow-sm transition-all duration-200 focus:ring-1 disabled:opacity-60"
+                  :class="errors.email ? 'border-red-400 bg-red-50 focus:border-red-500 focus:ring-red-200' : 'border-gray-300 bg-gray-50 focus:border-[#F16E00] focus:ring-orange-200'"
                 />
               </div>
-              <p v-if="errors.email" class="mt-1.5 flex items-center gap-1.5 text-xs text-red-600">
-                <svg class="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-                </svg>
+              <p v-if="errors.email" class="mt-1 flex items-center text-xs text-red-500">
+                <AlertCircle :size="12" class="mr-1 shrink-0" />
                 {{ errors.email }}
               </p>
             </div>
 
-            <!-- Password -->
             <div>
-              <label class="mb-1.5 block text-sm font-semibold text-slate-700">Mot de passe</label>
-              <div
-                class="flex h-12 items-center gap-3 rounded-xl border px-4 transition-colors focus-within:border-orange-400 focus-within:ring-3 focus-within:ring-orange-500/10"
-                :class="errors.password ? 'border-red-300 bg-red-50/30' : 'border-slate-200 bg-white'"
-              >
-                <svg class="h-4 w-4 shrink-0 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                </svg>
+              <label for="password" class="mb-1 block text-xs font-medium text-gray-700">Mot de passe</label>
+              <div class="group relative">
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                  <Lock
+                    :size="16"
+                    class="transition-colors"
+                    :class="errors.password ? 'text-red-500' : 'text-gray-400 group-focus-within:text-[#F16E00]'"
+                  />
+                </div>
                 <input
+                  id="password"
                   v-model="form.password"
                   :type="showPassword ? 'text' : 'password'"
                   :disabled="isLoading"
                   @blur="validatePassword"
-                  placeholder="••••••••"
-                  class="w-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400 disabled:opacity-60"
+                  placeholder="Mot de passe"
+                  class="w-full rounded-lg border py-2 pl-9 pr-9 text-sm shadow-sm transition-all duration-200 focus:ring-1 disabled:opacity-60"
+                  :class="errors.password ? 'border-red-400 bg-red-50 focus:border-red-500 focus:ring-red-200' : 'border-gray-300 bg-gray-50 focus:border-[#F16E00] focus:ring-orange-200'"
                 />
                 <button
                   type="button"
-                  class="shrink-0 text-slate-400 transition-colors hover:text-slate-600"
+                  class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 transition hover:text-gray-600"
+                  :aria-label="showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'"
                   @click="showPassword = !showPassword"
                 >
-                  <svg v-if="showPassword" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
-                    <line x1="1" y1="1" x2="23" y2="23"/>
-                  </svg>
-                  <svg v-else class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
-                  </svg>
+                  <EyeOff v-if="showPassword" :size="16" />
+                  <Eye v-else :size="16" />
                 </button>
               </div>
-              <p v-if="errors.password" class="mt-1.5 flex items-center gap-1.5 text-xs text-red-600">
-                <svg class="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-                </svg>
+              <p v-if="errors.password" class="mt-1 flex items-center text-xs text-red-500">
+                <AlertCircle :size="12" class="mr-1 shrink-0" />
                 {{ errors.password }}
               </p>
-              <div class="mt-2 text-right">
-                <button type="button" class="text-xs font-medium text-orange-500 transition-colors hover:text-orange-600 hover:underline">
-                  Mot de passe oublié ?
-                </button>
-              </div>
             </div>
 
-            <!-- Submit -->
+            <div class="flex justify-end">
+              <button
+                type="button"
+                class="text-xs font-medium text-[#F16E00] transition-all duration-200 hover:text-[#d95f00] hover:underline"
+              >
+                Mot de passe oublié ?
+              </button>
+            </div>
+
             <button
               type="submit"
               :disabled="isLoading"
-              class="flex h-12 w-full items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-sm font-semibold text-white shadow-lg shadow-orange-500/25 transition-all hover:from-orange-600 hover:to-orange-700 hover:shadow-orange-500/30 disabled:cursor-not-allowed disabled:opacity-60"
+              class="flex w-full items-center justify-center rounded-lg bg-[#F16E00] py-2 text-sm font-medium text-white shadow-md transition-all duration-200 hover:bg-[#d95f00] focus:outline-none focus:ring-2 focus:ring-[#F16E00] focus:ring-offset-1 disabled:opacity-70"
             >
-              <svg v-if="isLoading" class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
-              </svg>
-              {{ isLoading ? "Connexion en cours..." : "Se connecter" }}
+              <span v-if="isLoading" class="flex items-center justify-center">
+                <LoaderCircle :size="16" class="mr-2 animate-spin" />
+                Connexion en cours...
+              </span>
+              <span v-else>Se connecter</span>
             </button>
           </form>
 
-          <p class="mt-10 text-center text-xs text-slate-400">© {{ new Date().getFullYear() }} Orange Digital Center. Tous droits réservés.</p>
-        </div>
-      </section>
-
-      <!-- ── Right: Visual panel ── -->
-      <section class="relative hidden overflow-hidden bg-slate-900 lg:flex lg:flex-col lg:justify-between px-14 py-12">
-        <!-- Background decorations -->
-        <div class="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-orange-500/10"></div>
-        <div class="pointer-events-none absolute -bottom-16 -left-16 h-64 w-64 rounded-full bg-orange-500/8"></div>
-        <div class="pointer-events-none absolute bottom-32 right-20 h-40 w-40 rounded-full bg-orange-500/6"></div>
-
-        <!-- Top: Brand mark -->
-        <div class="relative">
-          <AppSidebarBrand />
-        </div>
-
-        <!-- Center: Main copy -->
-        <div class="relative">
-          <div class="mb-5 inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1.5">
-            <span class="h-1.5 w-1.5 rounded-full bg-orange-400"></span>
-            <span class="text-xs font-semibold text-orange-400">Plateforme de suivi</span>
-          </div>
-          <h3 class="text-4xl font-extrabold leading-tight text-white">
-            Suivez chaque<br />
-            <span class="text-orange-400">parcours</span><br />
-            professionnel
-          </h3>
-          <p class="mt-5 text-base leading-relaxed text-slate-400">
-            ODC Track vous accompagne dans le suivi de l'insertion professionnelle avec des outils performants et une interface intuitive.
-          </p>
-
-          <!-- Feature list -->
-          <div class="mt-8 space-y-3">
-            <div v-for="feature in [
-              'Tableau de bord en temps réel',
-              'Validation des situations professionnelles',
-              'Suivi des apprenants par promotion',
-            ]" :key="feature" class="flex items-center gap-3">
-              <div class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-orange-500/20">
-                <svg class="h-3 w-3 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </div>
-              <span class="text-sm text-slate-400">{{ feature }}</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bottom: Stats row -->
-        <div class="relative flex items-center gap-6">
-          <div class="rounded-2xl border border-white/8 bg-white/5 px-5 py-3 text-center backdrop-blur-sm">
-            <p class="text-2xl font-extrabold text-white">100%</p>
-            <p class="mt-0.5 text-xs text-slate-500">Données sécurisées</p>
-          </div>
-          <div class="rounded-2xl border border-white/8 bg-white/5 px-5 py-3 text-center backdrop-blur-sm">
-            <p class="text-2xl font-extrabold text-orange-400">ODC</p>
-            <p class="mt-0.5 text-xs text-slate-500">Orange Digital</p>
+          <div class="mt-6 border-t border-gray-100 pt-4 text-center text-xs text-gray-500">
+            © {{ new Date().getFullYear() }} Orange Digital Center. Tous droits réservés.
           </div>
         </div>
       </section>
     </div>
   </main>
 </template>
+
+<style scoped>
+.login-card-shell {
+  animation: login-card-in 0.6s ease-out both;
+}
+
+.login-card-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  box-shadow: 0 10px 15px rgb(0 0 0 / 0.12);
+}
+
+.login-card-layer-orange {
+  background: #F16E00;
+  transform: rotate(1deg) translate(-8px, -8px);
+  animation: orange-layer 6s ease-in-out infinite alternate;
+}
+
+.login-card-layer-teal {
+  background: #009682;
+  transform: rotate(-1deg) translate(8px, 8px);
+  animation: teal-layer 6s ease-in-out 0.5s infinite alternate;
+}
+
+@keyframes login-card-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes orange-layer {
+  from {
+    transform: rotate(1deg) translate(-8px, -8px);
+  }
+  to {
+    transform: rotate(2deg) translate(-9px, -7px);
+  }
+}
+
+@keyframes teal-layer {
+  from {
+    transform: rotate(-1deg) translate(8px, 8px);
+  }
+  to {
+    transform: rotate(-2deg) translate(9px, 7px);
+  }
+}
+</style>

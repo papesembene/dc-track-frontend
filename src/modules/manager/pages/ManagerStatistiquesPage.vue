@@ -108,6 +108,7 @@ async function loadStats() {
       includePromotions: false,
       includeReferentiels: true,
       includeSituationsRecentes: false,
+      forceRefresh: true,
     })
     
     stats.value =
@@ -129,7 +130,10 @@ async function handlePromotionChange() {
 onMounted(() => {
   ;(async () => {
     try {
-      const promotionsData = await getPromotions({ includeMetrics: false })
+      const promotionsData = await getPromotions({
+        includeMetrics: false,
+        forceRefresh: true,
+      })
       promotionOptions.value = promotionsData.items
       activePromotion.value =
         (promotionsData.items.find(
@@ -205,34 +209,32 @@ onMounted(() => {
         </div>
 
         <!-- ── Hero Banner ── -->
-        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 p-6 text-white shadow-xl shadow-orange-500/20 lg:p-8">
-          <div class="pointer-events-none absolute -right-12 -top-12 h-52 w-52 rounded-full bg-white/10"></div>
-          <div class="pointer-events-none absolute -bottom-8 right-8 h-36 w-36 rounded-full bg-white/10"></div>
+        <div class="relative overflow-hidden rounded-xl border border-gray-100 bg-white p-5 shadow-sm lg:p-6">
           <div class="relative flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <div class="mb-2 inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1">
-                <span class="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse"></span>
+              <div class="mb-2 inline-flex items-center gap-2 rounded-full bg-orange-50 px-3 py-1 text-[#F16E00]">
+                <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-[#009682]"></span>
                 <span class="text-xs font-semibold">Données en temps réel</span>
               </div>
-              <h2 class="text-2xl font-extrabold leading-tight sm:text-3xl">
+              <h2 class="text-2xl font-bold leading-tight text-gray-900 sm:text-3xl">
                 Statistiques
               </h2>
-              <p class="mt-1 text-sm text-orange-100">
+              <p class="mt-1 text-sm text-gray-500">
                 Suivi global de l'insertion professionnelle
               </p>
             </div>
             <div class="flex shrink-0 gap-3">
-              <div class="rounded-2xl bg-white/15 px-5 py-3 text-center">
-                <p class="text-2xl font-extrabold">
+              <div class="rounded-xl border border-teal-100 bg-teal-50 px-5 py-3 text-center">
+                <p class="text-2xl font-bold text-[#009682]">
                   {{ stats.tauxInsertion }}%
                 </p>
-                <p class="mt-0.5 text-xs text-orange-100">Taux insertion</p>
+                <p class="mt-0.5 text-xs text-gray-500">Taux insertion</p>
               </div>
-              <div class="rounded-2xl bg-white/15 px-5 py-3 text-center">
-                <p class="text-2xl font-extrabold">
+              <div class="rounded-xl border border-orange-100 bg-orange-50 px-5 py-3 text-center">
+                <p class="text-2xl font-bold text-[#F16E00]">
                   {{ stats.totalApprenants }}
                 </p>
-                <p class="mt-0.5 text-xs text-orange-100">Apprenants</p>
+                <p class="mt-0.5 text-xs text-gray-500">Apprenants</p>
               </div>
             </div>
           </div>
@@ -361,9 +363,9 @@ onMounted(() => {
             <div class="space-y-5">
               <div v-for="seg in [
                 { label: 'Stage', value: stats.parStatut?.EN_STAGE || 0, color: 'bg-orange-500' },
-                { label: 'Emploi', value: stats.parStatut?.EN_EMPLOI || 0, color: 'bg-blue-500' },
+                { label: 'Emploi', value: stats.parStatut?.EN_EMPLOI || 0, color: 'bg-[#009682]' },
                 { label: 'Recherche', value: stats.parStatut?.RECHERCHE_EMPLOI || 0, color: 'bg-amber-400' },
-                { label: 'Projet', value: stats.parStatut?.PROJET_PERSO || 0, color: 'bg-purple-500' },
+                { label: 'Projet', value: stats.parStatut?.PROJET_PERSO || 0, color: 'bg-[#F16E00]' },
               ]" :key="seg.label">
                 <div class="mb-2 flex items-center justify-between">
                   <div class="flex items-center gap-2">

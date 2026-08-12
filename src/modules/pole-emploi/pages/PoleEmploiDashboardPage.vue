@@ -56,6 +56,7 @@ async function loadStats() {
       includePromotions: false,
       includeReferentiels: false,
       includeSituationsRecentes: true,
+      forceRefresh: true,
     });
   } catch (error: any) {
     const msg =
@@ -86,7 +87,10 @@ const statusColor = (valide: boolean) =>
 // Chargement des statistiques au montage du composant
 onMounted(async () => {
   try {
-    const allPromotions = await getPromotions({ includeMetrics: false });
+    const allPromotions = await getPromotions({
+      includeMetrics: false,
+      forceRefresh: true,
+    });
     const safePromotions = Array.isArray(allPromotions) ? allPromotions : [];
 
     promotions.value = safePromotions;
@@ -110,63 +114,56 @@ onMounted(async () => {
     <div class="space-y-5">
       <!-- ── Hero Banner ── -->
       <div
-        class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 p-6 text-white shadow-xl shadow-orange-500/20 lg:p-8"
+        class="relative overflow-hidden rounded-xl border border-gray-100 bg-white p-5 shadow-sm lg:p-6"
       >
-        <div
-          class="pointer-events-none absolute -right-12 -top-12 h-52 w-52 rounded-full bg-white/10"
-        ></div>
-        <div
-          class="pointer-events-none absolute -bottom-8 right-8 h-36 w-36 rounded-full bg-white/10"
-        ></div>
-
         <div
           class="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
         >
           <div>
             <div
-              class="mb-2 inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1"
+              class="mb-2 inline-flex items-center gap-2 rounded-full bg-orange-50 px-3 py-1 text-[#F16E00]"
             >
-              <span class="h-1.5 w-1.5 rounded-full bg-green-400"></span>
+              <span class="h-1.5 w-1.5 rounded-full bg-[#009682]"></span>
               <span class="text-xs font-semibold">Pôle Emploi · Actif</span>
             </div>
-            <h2 class="text-2xl font-extrabold leading-tight sm:text-3xl">
+            <h2 class="text-2xl font-bold leading-tight text-gray-900 sm:text-3xl">
               Tableau de bord
             </h2>
-            <p class="mt-1 text-sm text-orange-100">
+            <p class="mt-1 text-sm text-gray-500">
               Vue d'ensemble de l'insertion professionnelle
             </p>
             <div class="mt-4 flex max-w-xs flex-col gap-2">
-              <label class="text-xs font-semibold uppercase tracking-wide text-orange-100/80">
+              <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
                 Promotion
               </label>
               <select
                 v-model="selectedPromotionId"
-                class="rounded-xl border border-white/20 bg-white/15 px-3 py-2 text-sm text-white outline-none"
+                class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 outline-none transition-colors focus:border-[#F16E00] focus:ring-2 focus:ring-orange-100"
                 @change="handlePromotionChange"
               >
                 <option
                   v-for="promotion in promotions"
                   :key="promotion.id"
                   :value="promotion.id"
-                  class="text-slate-900"
+                  class="text-gray-900"
                 >
                   {{ promotion.nom }}{{ promotion.annee ? ` (${promotion.annee})` : "" }}
                 </option>
               </select>
             </div>
           </div>
-          <div class="flex shrink-0 gap-4">
-            <div class="rounded-2xl bg-white/15 px-5 py-3 text-center">
-              <p class="text-2xl font-extrabold">
+          <div class="flex shrink-0 gap-3">
+            <div class="rounded-xl border border-orange-100 bg-orange-50 px-5 py-3 text-center">
+              <p class="text-2xl font-bold text-[#F16E00]">
                 {{ isLoading ? "—" : stats.totalApprenants }}
               </p>
-              <p class="text-xs text-orange-100 mt-0.5">Apprenants</p>
+              <p class="mt-0.5 text-xs text-gray-500">Apprenants</p>
             </div>
-            <div class="rounded-2xl bg-white/15 px-5 py-3 text-center">
-              <p class="text-2xl font-extrabold">
+            <div class="rounded-xl border border-teal-100 bg-teal-50 px-5 py-3 text-center">
+              <p class="text-2xl font-bold text-[#009682]">
                 {{ isLoading ? "—" : `${stats.tauxInsertion}%` }}
               </p>
-              <p class="text-xs text-orange-100 mt-0.5">Taux validation</p>
+              <p class="mt-0.5 text-xs text-gray-500">Taux validation</p>
             </div>
           </div>
         </div>
@@ -176,7 +173,7 @@ onMounted(async () => {
         <div
           v-for="index in 4"
           :key="index"
-          class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+          class="rounded-xl border border-gray-100 bg-white p-5 shadow-sm"
         >
           <div class="animate-pulse">
             <div class="h-4 w-24 rounded bg-slate-200"></div>
@@ -253,11 +250,11 @@ onMounted(async () => {
         <StatCard
           label="Taux validation"
           :value="stats.tauxInsertion + '%'"
-          value-class="text-blue-600"
-          icon-bg-class="bg-blue-50"
+          value-class="text-[#009682]"
+          icon-bg-class="bg-teal-50"
         >
           <svg
-            class="h-5 w-5 text-blue-500"
+            class="h-5 w-5 text-[#009682]"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -274,7 +271,7 @@ onMounted(async () => {
       <!-- ── Alert Banner ── -->
       <section
         v-if="stats.enAttente > 0"
-        class="flex flex-col gap-4 rounded-2xl border-2 border-orange-300 bg-orange-50/60 p-5 sm:flex-row sm:items-center sm:justify-between"
+        class="flex flex-col gap-4 rounded-xl border border-orange-200 bg-orange-50/60 p-5 sm:flex-row sm:items-center sm:justify-between"
       >
         <div class="flex items-start gap-4">
           <div
@@ -310,7 +307,7 @@ onMounted(async () => {
         </div>
         <RouterLink
           to="/validations"
-          class="inline-flex shrink-0 items-center gap-1.5 rounded-xl bg-orange-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm shadow-orange-500/20 transition-colors hover:bg-orange-600"
+          class="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-[#F16E00] px-4 py-2.5 text-sm font-semibold text-white shadow-sm shadow-orange-500/20 transition-colors hover:bg-[#d95f00]"
         >
           Voir les validations
           <svg
@@ -376,10 +373,10 @@ onMounted(async () => {
           <QuickAccessCard
             title="Statistiques"
             subtitle="Voir les statistiques"
-            icon-bg-class="bg-blue-50"
+            icon-bg-class="bg-teal-50"
           >
             <svg
-              class="h-5 w-5 text-blue-500"
+              class="h-5 w-5 text-[#009682]"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -398,10 +395,10 @@ onMounted(async () => {
           <QuickAccessCard
             title="Entreprises"
             subtitle="Gérer les entreprises"
-            icon-bg-class="bg-purple-50"
+            icon-bg-class="bg-teal-50"
           >
             <svg
-              class="h-5 w-5 text-purple-500"
+              class="h-5 w-5 text-[#009682]"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -440,7 +437,7 @@ onMounted(async () => {
       </div>
 
       <!-- ── Activité récente ── -->
-      <section class="rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <section class="rounded-xl border border-gray-100 bg-white shadow-sm">
         <div
           class="flex items-center justify-between border-b border-slate-100 px-6 py-5"
         >
@@ -488,7 +485,7 @@ onMounted(async () => {
           class="flex flex-col items-center justify-center gap-2 px-6 py-12 text-center"
         >
           <div
-            class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100"
+            class="flex h-12 w-12 items-center justify-center rounded-lg bg-slate-100"
           >
             <svg
               class="h-6 w-6 text-slate-400"

@@ -60,9 +60,9 @@ const menu: Array<{ key: ManagerMenuKey; label: string; to: string }> = [
 
 const linkClass = (key: ManagerMenuKey) => {
   if (key === props.activeMenu) {
-    return 'sidebar-link-base bg-orange-500 text-white shadow-lg shadow-orange-500/20'
+    return 'sidebar-link-base border-l-8 border-[#F16E00] bg-orange-50 font-medium text-[#F16E00] shadow-sm'
   }
-  return 'sidebar-link-base text-slate-400 hover:bg-white/8 hover:text-slate-100'
+  return 'sidebar-link-base text-gray-600 hover:bg-gray-50 hover:text-gray-900'
 }
 
 const logout = async () => {
@@ -72,17 +72,22 @@ const logout = async () => {
 </script>
 
 <template>
-  <div class="h-screen overflow-hidden bg-slate-50 text-slate-900">
+  <div class="h-screen overflow-hidden bg-gray-100 text-slate-900">
     <div class="flex h-full">
 
       <!-- ── Desktop Sidebar ── -->
-      <aside class="hidden w-64 shrink-0 flex-col bg-slate-900 lg:flex">
-        <div class="border-b border-white/7 px-5 py-5">
+      <aside class="hidden w-64 shrink-0 flex-col border-r border-gray-100 bg-white shadow-sm lg:flex">
+        <div class="flex flex-col items-center justify-center px-4 py-6">
           <AppSidebarBrand />
+          <div class="mt-4 rounded-full bg-orange-50 px-6 py-1.5 text-xs font-medium text-[#F16E00]">
+            ODC Track
+          </div>
         </div>
 
+        <div class="mx-6 mb-2 h-px bg-gray-100"></div>
+
         <nav class="flex-1 overflow-y-auto px-3 py-5">
-          <p class="mb-2 px-4 text-[10px] font-semibold uppercase tracking-widest text-slate-600">Navigation</p>
+          <p class="mb-2 px-4 text-[10px] font-semibold uppercase tracking-widest text-gray-400">Navigation</p>
           <div class="space-y-1">
             <RouterLink v-for="item in menu" :key="item.key" :to="item.to" :class="linkClass(item.key)">
               <svg v-if="item.key === 'dashboard'" class="h-[18px] w-[18px] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -111,8 +116,8 @@ const logout = async () => {
           </div>
         </nav>
 
-        <div class="border-t border-white/7 px-3 py-4">
-          <button type="button" @click="logout" class="sidebar-link-base w-full text-left text-red-400 hover:bg-red-500/10 hover:text-red-300">
+        <div class="border-t border-gray-100 px-3 py-4">
+          <button type="button" @click="logout" class="sidebar-link-base w-full text-left text-red-500 hover:bg-red-50 hover:text-red-600">
             <svg class="h-[18px] w-[18px] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
             </svg>
@@ -142,14 +147,14 @@ const logout = async () => {
               <svg class="h-4.5 w-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
               </svg>
-              <span class="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-orange-500 ring-2 ring-white"></span>
+              <span class="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-[#F16E00] ring-2 ring-white"></span>
             </button>
             <div class="hidden h-6 w-px bg-slate-200 sm:block"></div>
             <div class="hidden text-right sm:block">
               <p class="text-sm font-semibold leading-tight text-slate-900">{{ userName }}</p>
               <p class="text-xs text-slate-400">{{ roleLabel }}</p>
             </div>
-            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-orange-400 to-orange-600 text-sm font-bold text-white shadow-md shadow-orange-500/25">
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#F16E00] text-sm font-bold text-white shadow-md shadow-orange-500/25">
               {{ userInitials }}
             </div>
           </div>
@@ -163,15 +168,15 @@ const logout = async () => {
 
     <!-- ── Mobile overlay ── -->
     <Transition name="fade-overlay">
-      <div v-if="mobileOpen" class="fixed inset-0 z-40 bg-slate-900/60 backdrop-blur-sm lg:hidden" @click="mobileOpen = false" />
+      <div v-if="mobileOpen" class="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm lg:hidden" @click="mobileOpen = false" />
     </Transition>
 
     <!-- ── Mobile sidebar ── -->
     <Transition name="slide-sidebar">
-      <aside v-show="mobileOpen" class="fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-slate-900 shadow-2xl lg:hidden">
-        <div class="flex items-center justify-between border-b border-white/7 px-5 py-5">
-          <AppSidebarBrand compact />
-          <button class="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-white/10 hover:text-white" @click="mobileOpen = false">
+      <aside v-show="mobileOpen" class="fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-white shadow-2xl lg:hidden">
+        <div class="flex items-center justify-between border-b border-gray-100 px-5 py-5">
+          <AppSidebarBrand />
+          <button class="flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 hover:bg-gray-50 hover:text-gray-700" @click="mobileOpen = false">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
             </svg>
@@ -186,8 +191,8 @@ const logout = async () => {
             <span>{{ item.label }}</span>
           </RouterLink>
         </nav>
-        <div class="border-t border-white/7 px-3 py-4">
-          <button type="button" @click="logout" class="sidebar-link-base w-full text-left text-red-400 hover:bg-red-500/10 hover:text-red-300">
+        <div class="border-t border-gray-100 px-3 py-4">
+          <button type="button" @click="logout" class="sidebar-link-base w-full text-left text-red-500 hover:bg-red-50 hover:text-red-600">
             <svg class="h-[18px] w-[18px] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
             </svg>

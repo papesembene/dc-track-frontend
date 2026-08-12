@@ -216,52 +216,45 @@ onMounted(() => {
 
       <!-- ── Hero Banner ── -->
       <div
-        class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 p-6 text-white shadow-xl shadow-orange-500/20 lg:p-8"
+        class="relative overflow-hidden rounded-xl border border-gray-100 bg-white p-5 shadow-sm lg:p-6"
       >
-        <div
-          class="pointer-events-none absolute -right-12 -top-12 h-52 w-52 rounded-full bg-white/10"
-        ></div>
-        <div
-          class="pointer-events-none absolute -bottom-8 right-8 h-36 w-36 rounded-full bg-white/10"
-        ></div>
-
         <div
           class="relative flex flex-col items-start gap-5 sm:flex-row sm:items-center"
         >
           <div
-            class="flex h-20 w-20 items-center justify-center rounded-2xl border-4 border-white/30 bg-white/20 text-2xl font-bold sm:h-24 sm:w-24"
+            class="flex h-20 w-20 items-center justify-center rounded-xl border-4 border-orange-100 bg-orange-50 text-2xl font-bold text-[#F16E00] sm:h-24 sm:w-24"
           >
             {{ apprenant.initials }}
           </div>
 
           <div class="flex-1">
             <div
-              class="mb-2 inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1"
+              class="mb-2 inline-flex items-center gap-2 rounded-full bg-orange-50 px-3 py-1 text-[#F16E00]"
             >
-              <span class="h-1.5 w-1.5 rounded-full bg-green-400"></span>
+              <span class="h-1.5 w-1.5 rounded-full bg-[#009682]"></span>
               <span class="text-xs font-semibold">{{ apprenant.role }}</span>
             </div>
-            <h2 class="text-2xl font-extrabold leading-tight sm:text-3xl">
+            <h2 class="text-2xl font-bold leading-tight text-gray-900 sm:text-3xl">
               {{ apprenant.nom }} {{ apprenant.prenom }}
             </h2>
-            <p class="mt-1 text-sm text-orange-100">{{ apprenant.email }}</p>
+            <p class="mt-1 text-sm text-gray-500">{{ apprenant.email }}</p>
             <div class="mt-3 flex flex-wrap gap-2">
               <span
-                class="rounded-full bg-white/20 px-3 py-1 text-xs font-semibold"
+                class="rounded-full bg-orange-50 px-3 py-1 text-xs font-semibold text-[#F16E00]"
                 >{{ apprenant.promo }}</span
               >
               <span
-                class="rounded-full bg-white/20 px-3 py-1 text-xs font-semibold"
+                class="rounded-full bg-teal-50 px-3 py-1 text-xs font-semibold text-[#009682]"
                 >{{ apprenant.referentiel }}</span
               >
             </div>
           </div>
 
-          <div class="shrink-0 rounded-2xl bg-white/15 px-6 py-3 text-center">
-            <p class="text-3xl font-extrabold">
+          <div class="shrink-0 rounded-xl border border-orange-100 bg-orange-50 px-6 py-3 text-center">
+            <p class="text-3xl font-bold text-[#F16E00]">
               {{ apprenant.totalSituations }}
             </p>
-            <p class="mt-0.5 text-xs text-orange-100">Situations</p>
+            <p class="mt-0.5 text-xs text-gray-500">Situations</p>
           </div>
         </div>
       </div>
