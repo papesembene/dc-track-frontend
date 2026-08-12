@@ -56,7 +56,6 @@ async function loadStats() {
       includePromotions: false,
       includeReferentiels: false,
       includeSituationsRecentes: true,
-      forceRefresh: true,
     });
   } catch (error: any) {
     const msg =
@@ -89,7 +88,6 @@ onMounted(async () => {
   try {
     const allPromotions = await getPromotions({
       includeMetrics: false,
-      forceRefresh: true,
     });
     const safePromotions = Array.isArray(allPromotions) ? allPromotions : [];
 

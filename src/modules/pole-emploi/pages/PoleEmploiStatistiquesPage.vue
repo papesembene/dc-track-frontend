@@ -110,7 +110,6 @@ async function loadStats() {
       includePromotions: true,
       includeReferentiels: true,
       includeSituationsRecentes: false,
-      forceRefresh: true,
     });
     stats.value = data;
     hasLoaded.value = true;
@@ -125,7 +124,7 @@ async function loadStats() {
 }
 
 onMounted(() => {
-  getPromotions({ includeMetrics: false, forceRefresh: true })
+  getPromotions({ includeMetrics: false })
     .then((promotions) => {
       const safePromotions = Array.isArray(promotions) ? promotions : [];
       promotionsList.value = safePromotions;

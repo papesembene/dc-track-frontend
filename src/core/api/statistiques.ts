@@ -53,7 +53,6 @@ export interface StatistiquesGlobalesOptions {
   includePromotions?: boolean;
   includeReferentiels?: boolean;
   includeSituationsRecentes?: boolean;
-  forceRefresh?: boolean;
 }
 
 export interface StatistiquesPromotion {
@@ -78,8 +77,7 @@ export interface StatistiquesReferentiel {
 export async function getStatistiques(
   options?: StatistiquesGlobalesOptions,
 ): Promise<StatistiquesGlobales> {
-  const { forceRefresh: _forceRefresh, ...params } = options ?? {};
-  const res = await api.get("/statistiques/globales", { params });
+  const res = await api.get("/statistiques/globales", { params: options });
   return extractApiData<StatistiquesGlobales>(res) as StatistiquesGlobales;
 }
 

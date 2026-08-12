@@ -7,7 +7,6 @@ type CacheEnvelope<T> = {
 type CacheOptions = {
   ttlMs?: number;
   staleTtlMs?: number;
-  forceRefresh?: boolean;
 };
 
 const DEFAULT_TTL_MS = 5 * 60 * 1000;
@@ -102,13 +101,13 @@ export async function getCachedMasterData<T>(
   const ttlMs = options.ttlMs ?? DEFAULT_TTL_MS;
   const staleTtlMs = options.staleTtlMs ?? DEFAULT_STALE_TTL_MS;
   const now = Date.now();
-  const cached = options.forceRefresh ? null : getCachedEnvelope<T>(key);
+  const cached = getCachedEnvelope<T>(key);
 
   if (cached && cached.expiresAt > now) {
     return cached.data;
   }
 
-  const pendingRequest = options.forceRefresh ? null : inflight.get(key);
+  const pendingRequest = inflight.get(key);
   if (pendingRequest) {
     return pendingRequest as Promise<T>;
   }

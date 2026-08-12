@@ -55,7 +55,6 @@ export type PromotionsPagination = {
 
 export type PromotionsMasterDataOptions = {
   includeMetrics?: boolean;
-  forceRefresh?: boolean;
 };
 
 export interface PromotionInput {
@@ -92,7 +91,6 @@ export async function getPromotions(
     {
       ttlMs: 5 * 60 * 1000,
       staleTtlMs: 30 * 60 * 1000,
-      forceRefresh: options.forceRefresh,
     },
   );
 }
@@ -102,7 +100,7 @@ export async function getPromotions(
  *
  * @returns Promesse avec la liste des référentiels
  */
-export async function getReferentiels(options: { forceRefresh?: boolean } = {}): Promise<ReferentielItem[]> {
+export async function getReferentiels(): Promise<ReferentielItem[]> {
   return getCachedMasterData(
     "master-data:referentiels",
     async () => {
@@ -112,7 +110,6 @@ export async function getReferentiels(options: { forceRefresh?: boolean } = {}):
     {
       ttlMs: 5 * 60 * 1000,
       staleTtlMs: 30 * 60 * 1000,
-      forceRefresh: options.forceRefresh,
     },
   );
 }
@@ -133,9 +130,7 @@ export async function activatePromotion(id: string): Promise<PromotionItem> {
  *
  * @returns Promesse avec la promotion active ou null
  */
-export async function getActivePromotion(
-  options: { forceRefresh?: boolean } = {},
-): Promise<PromotionWithReferentiels | null> {
+export async function getActivePromotion(): Promise<PromotionWithReferentiels | null> {
   return getCachedMasterData(
     "master-data:active-promotion",
     async () => {
@@ -145,7 +140,6 @@ export async function getActivePromotion(
     {
       ttlMs: 5 * 60 * 1000,
       staleTtlMs: 30 * 60 * 1000,
-      forceRefresh: options.forceRefresh,
     },
   );
 }

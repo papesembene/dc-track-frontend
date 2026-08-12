@@ -109,8 +109,8 @@ currentPage.value =
 async function loadFilters() {
   try {
     const [promos, refs] = await Promise.all([
-      getPromotions({ includeMetrics: false, forceRefresh: true }),
-      getReferentiels({ forceRefresh: true }),
+      getPromotions({ includeMetrics: false }),
+      getReferentiels(),
     ]);
     const safePromotions = Array.isArray(promos) ? promos : [];
     const safeReferentiels = Array.isArray(refs) ? refs : [];
@@ -142,7 +142,6 @@ async function loadApprenants() {
       search: searchQuery.value || undefined,
       promotionId: filterPromo.value || undefined,
       referentielId: filterRef.value || undefined,
-      forceRefresh: true,
     });
 
     // Transformer les données API en format pour l'affichage
@@ -202,7 +201,6 @@ async function loadGlobalStats() {
       includePromotions: false,
       includeReferentiels: false,
       includeSituationsRecentes: false,
-      forceRefresh: true,
     });
   } catch (error) {
     console.error("Erreur chargement statistiques:", error);

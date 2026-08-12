@@ -90,7 +90,7 @@ async function loadOptions() {
   try {
     const [promotionItems, referentialItems] = await Promise.all([
       getLocalPromotions(),
-      getReferentiels({ forceRefresh: true }),
+      getReferentiels(),
     ]);
 
     promotions.value = promotionItems;

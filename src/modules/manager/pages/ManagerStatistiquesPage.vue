@@ -108,7 +108,6 @@ async function loadStats() {
       includePromotions: false,
       includeReferentiels: true,
       includeSituationsRecentes: false,
-      forceRefresh: true,
     })
     
     stats.value =
@@ -132,7 +131,6 @@ onMounted(() => {
     try {
       const promotionsData = await getPromotions({
         includeMetrics: false,
-        forceRefresh: true,
       })
       promotionOptions.value = promotionsData.items
       activePromotion.value =

@@ -49,7 +49,6 @@ export interface ApprenantsQueryParams {
   search?: string;
   promotionId?: string;
   referentielId?: string;
-  forceRefresh?: boolean;
 }
 
 /**

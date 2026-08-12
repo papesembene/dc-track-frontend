@@ -33,8 +33,8 @@ async function loadFilters() {
   try {
     // Requêtes parallèles pour optimiser les performances
     const [promData, refData] = await Promise.all([
-      getPromotions({ includeMetrics: false, forceRefresh: true }),
-      getReferentiels({ forceRefresh: true }),
+      getPromotions({ includeMetrics: false }),
+      getReferentiels(),
     ]);
     const promotions = Array.isArray(promData) ? promData : [];
     const referentiels = Array.isArray(refData) ? refData : [];

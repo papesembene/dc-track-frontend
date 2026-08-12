@@ -29,7 +29,6 @@ async function loadDashboard() {
       includePromotions: true,
       includeReferentiels: false,
       includeSituationsRecentes: true,
-      forceRefresh: true,
     })
 
     statsData.value = stats
@@ -52,7 +51,6 @@ onMounted(async () => {
   try {
     const allPromotions = await getPromotions({
       includeMetrics: false,
-      forceRefresh: true,
     })
 
     promotionOptions.value = allPromotions.items

@@ -45,7 +45,7 @@ async function fetchData() {
   error.value = null
 
   try {
-    const promotionsData = await getPromotions({ forceRefresh: true })
+    const promotionsData = await getPromotions()
 
     promotions.value = promotionsData.items.map((promotion) => ({
       ...promotion,

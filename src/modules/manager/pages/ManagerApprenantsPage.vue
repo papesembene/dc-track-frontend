@@ -109,7 +109,6 @@ async function loadApprenants() {
       search: search.value || undefined,
       promotionId: promotionFil.value || undefined,
       referentielId: refFil.value || undefined,
-      forceRefresh: true,
     });
 
     apprenantsList.value = apprenantsResult.items;
@@ -128,8 +127,8 @@ async function loadApprenants() {
 onMounted(async () => {
   try {
     const [promotionsData, activePromotion] = await Promise.all([
-      getPromotions({ includeMetrics: false, forceRefresh: true }),
-      getActivePromotion({ forceRefresh: true }),
+      getPromotions({ includeMetrics: false }),
+      getActivePromotion(),
     ]);
 
     promotions.value = promotionsData.items;

@@ -29,7 +29,6 @@ export type ReferentielsQuery = {
   search?: string
   sortBy?: 'createdAt' | 'nom'
   sortOrder?: 'asc' | 'desc'
-  forceRefresh?: boolean
 }
 
 export type ReferentielInput = {

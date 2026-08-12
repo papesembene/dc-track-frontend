@@ -16,7 +16,6 @@ type PromotionOption = {
 
 type PromotionsMasterDataOptions = {
   includeMetrics?: boolean;
-  forceRefresh?: boolean;
 };
 
 type ReferentielOption = {
@@ -85,7 +84,6 @@ export async function getPromotions(
     {
       ttlMs: 5 * 60 * 1000,
       staleTtlMs: 30 * 60 * 1000,
-      forceRefresh: options.forceRefresh,
     },
   );
 }
@@ -95,9 +93,7 @@ export async function getPromotions(
  * Le pôle emploi l'utilise comme filtre initial, sans empêcher ensuite
  * la consultation d'une autre promotion.
  */
-export async function getActivePromotion(
-  options: { forceRefresh?: boolean } = {},
-): Promise<PromotionOption | null> {
+export async function getActivePromotion(): Promise<PromotionOption | null> {
   return getCachedMasterData(
     "master-data:active-promotion",
     async () => {
@@ -107,7 +103,6 @@ export async function getActivePromotion(
     {
       ttlMs: 5 * 60 * 1000,
       staleTtlMs: 30 * 60 * 1000,
-      forceRefresh: options.forceRefresh,
     },
   );
 }
@@ -116,9 +111,7 @@ export async function getActivePromotion(
  * Récupère la liste de tous les référentiels.
  * @returns Tableau de référentiels
  */
-export async function getReferentiels(
-  options: { forceRefresh?: boolean } = {},
-): Promise<ReferentielOption[]> {
+export async function getReferentiels(): Promise<ReferentielOption[]> {
   return getCachedMasterData(
     "master-data:referentiels",
     async () => {
@@ -128,7 +121,6 @@ export async function getReferentiels(
     {
       ttlMs: 5 * 60 * 1000,
       staleTtlMs: 30 * 60 * 1000,
-      forceRefresh: options.forceRefresh,
     },
   );
 }
