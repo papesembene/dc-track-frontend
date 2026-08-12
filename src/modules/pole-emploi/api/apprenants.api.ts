@@ -67,7 +67,6 @@ export async function getApprenants(
   if (query?.search) params.append("search", query.search);
   if (query?.promotionId) params.append("promotionId", query.promotionId);
   if (query?.referentielId) params.append("referentielId", query.referentielId);
-  if (query?.forceRefresh) params.append("forceRefresh", "true");
 
   const queryString = params.toString();
   const url = queryString ? `/apprenants/master-data?${queryString}` : "/apprenants/master-data";
@@ -155,7 +154,6 @@ export async function exportApprenantsXlsx(
   if (query?.search) params.append("search", query.search);
   if (query?.promotionId) params.append("promotionId", query.promotionId);
   if (query?.referentielId) params.append("referentielId", query.referentielId);
-  if (query?.forceRefresh) params.append("forceRefresh", "true");
 
   const queryString = params.toString();
   const url = queryString

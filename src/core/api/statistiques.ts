@@ -78,7 +78,8 @@ export interface StatistiquesReferentiel {
 export async function getStatistiques(
   options?: StatistiquesGlobalesOptions,
 ): Promise<StatistiquesGlobales> {
-  const res = await api.get("/statistiques/globales", { params: options });
+  const { forceRefresh: _forceRefresh, ...params } = options ?? {};
+  const res = await api.get("/statistiques/globales", { params });
   return extractApiData<StatistiquesGlobales>(res) as StatistiquesGlobales;
 }
 

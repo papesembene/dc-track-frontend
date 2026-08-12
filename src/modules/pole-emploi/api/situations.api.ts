@@ -78,7 +78,6 @@ export async function getPromotions(
       const res = await api.get("/promotions/master-data", {
         params: {
           includeMetrics: options.includeMetrics !== false,
-          forceRefresh: options.forceRefresh ? "true" : undefined,
         },
       });
       return extractItems<PromotionOption>(res);
@@ -102,11 +101,7 @@ export async function getActivePromotion(
   return getCachedMasterData(
     "master-data:active-promotion",
     async () => {
-      const res = await api.get("/promotions/master-data/active", {
-        params: {
-          forceRefresh: options.forceRefresh ? "true" : undefined,
-        },
-      });
+      const res = await api.get("/promotions/master-data/active");
       return res?.data?.data || null;
     },
     {
@@ -127,11 +122,7 @@ export async function getReferentiels(
   return getCachedMasterData(
     "master-data:referentiels",
     async () => {
-      const res = await api.get("/referentiels/master-data", {
-        params: {
-          forceRefresh: options.forceRefresh ? "true" : undefined,
-        },
-      });
+      const res = await api.get("/referentiels/master-data");
       return extractItems<ReferentielOption>(res);
     },
     {
