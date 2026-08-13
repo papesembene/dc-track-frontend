@@ -63,6 +63,11 @@ export interface PromotionInput {
   referentielIds: string[];
 }
 
+const LIVE_MASTER_DATA_CACHE = {
+  ttlMs: 0,
+  staleTtlMs: 2 * 60 * 1000,
+};
+
 // ============================================
 // API
 // ============================================
@@ -89,8 +94,7 @@ export async function getPromotions(
       };
     },
     {
-      ttlMs: 5 * 60 * 1000,
-      staleTtlMs: 30 * 60 * 1000,
+      ...LIVE_MASTER_DATA_CACHE,
     },
   );
 }
@@ -108,8 +112,7 @@ export async function getReferentiels(): Promise<ReferentielItem[]> {
       return extractApiItems<ReferentielItem>(res);
     },
     {
-      ttlMs: 5 * 60 * 1000,
-      staleTtlMs: 30 * 60 * 1000,
+      ...LIVE_MASTER_DATA_CACHE,
     },
   );
 }
@@ -138,8 +141,7 @@ export async function getActivePromotion(): Promise<PromotionWithReferentiels | 
       return extractApiData<PromotionWithReferentiels | null>(res);
     },
     {
-      ttlMs: 5 * 60 * 1000,
-      staleTtlMs: 30 * 60 * 1000,
+      ...LIVE_MASTER_DATA_CACHE,
     },
   );
 }

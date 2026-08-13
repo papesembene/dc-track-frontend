@@ -24,6 +24,11 @@ type ReferentielOption = {
   createdAt?: string;
 };
 
+const LIVE_MASTER_DATA_CACHE = {
+  ttlMs: 0,
+  staleTtlMs: 2 * 60 * 1000,
+};
+
 type PendingSituation = {
   id: string;
   statut: string;
@@ -82,8 +87,7 @@ export async function getPromotions(
       return extractItems<PromotionOption>(res);
     },
     {
-      ttlMs: 5 * 60 * 1000,
-      staleTtlMs: 30 * 60 * 1000,
+      ...LIVE_MASTER_DATA_CACHE,
     },
   );
 }
@@ -101,8 +105,7 @@ export async function getActivePromotion(): Promise<PromotionOption | null> {
       return res?.data?.data || null;
     },
     {
-      ttlMs: 5 * 60 * 1000,
-      staleTtlMs: 30 * 60 * 1000,
+      ...LIVE_MASTER_DATA_CACHE,
     },
   );
 }
@@ -119,8 +122,7 @@ export async function getReferentiels(): Promise<ReferentielOption[]> {
       return extractItems<ReferentielOption>(res);
     },
     {
-      ttlMs: 5 * 60 * 1000,
-      staleTtlMs: 30 * 60 * 1000,
+      ...LIVE_MASTER_DATA_CACHE,
     },
   );
 }
